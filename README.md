@@ -1,68 +1,63 @@
-# `ahmad@bilal:~$ whoami`
+ <div align="center">
 
-<div align="center">
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:050505,50:003b24,100:00ff9c&height=190&section=header&text=AHMAD%20BILAL&fontSize=48&fontColor=00ff9c&animation=fadeIn&fontAlignY=38&desc=UNKNOWN%20USER%20%7C%20DEVELOPER%20%7C%20PROBLEM%20SOLVER&descSize=13&descAlignY=60" width="100%"/>
 
-### <code>AHMAD BILAL</code>
-**Developer · Problem Solver · CS Student**
+`[ SYSTEM STATUS: ONLINE ]` &nbsp; ` [ ENCRYPTION: ENABLED ]`
 
-![ONLINE](https://img.shields.io/badge/●_SYSTEM-ONLINE-00ff9c?style=for-the-badge&labelColor=080b10)
-![LINUX](https://img.shields.io/badge/OS-UBUNTU-00ff9c?style=for-the-badge&labelColor=080b10)
-![ROOT](https://img.shields.io/badge/ACCESS-ROOT-00ff9c?style=for-the-badge&labelColor=080b10)
+### `root@ahmad:~# whoami`
+
+**Computer Science Student @ FAST NUCES**
+
+*Exploring systems. Building ideas. Solving problems.*
 
 </div>
 
-```text
-┌──[ ahmad@bilal ]──[ ~/profile ]
-│
-├── $ whoami
-│   Ahmad Bilal
-│   Computer Science Student & Developer
-│
-├── $ system
-│   OS          :: Ubuntu 24.04 LTS
-│   HOST        :: FAST NUCES, Peshawar
-│   DEGREE      :: BS Computer Science
-│   IDE         :: Qt Creator / Android Studio
-│   SHELL       :: Bash
-│
-├── $ languages
-│   C           :: [ ACTIVE ]
-│   C++         :: [ ACTIVE ]
-│   Kotlin      :: [ BUILDING ]
-│   JavaScript  :: [ EXPLORING ]
-│   HTML / CSS  :: [ BUILDING ]
-│
-├── $ technologies
-│   Android • Jetpack Compose
-│   Firebase • Git • GitHub
-│   Linux • Qt • VS Code
-│
-├── $ interests
-│   Software Engineering
-│   Competitive Programming
-│   Android Development
-│   Problem Solving
-│
-├── $ contact
-│   GITHUB      :: Ahmadbilal-exe
-│   PORTFOLIO   :: ahmadbilal-exe.vercel.app
-│   LOCATION    :: Pakistan
-│
-└── [ SESSION ACTIVE ]
+---
+
+### <code>01 // SYSTEM INFORMATION</code>
+
+```yaml
+USER       : Ahmad Bilal
+LOCATION   : Pakistan
+EDUCATION  : BS Computer Science
+UNIVERSITY : FAST NUCES, Peshawar
+OS         : Ubuntu Linux
+EDITOR     : Qt Creator / Android Studio
+SHELL      : Bash
+STATUS     : Always Learning
 ```
 
-### `~/connect`
+### <code>02 // TECH ARSENAL</code>
 
 <div align="center">
 
-[![Portfolio](https://img.shields.io/badge/PORTFOLIO-00ff9c?style=for-the-badge&logo=vercel&logoColor=black&labelColor=080b10)](https://ahmadbilal-exe.vercel.app/)
+<img src="https://skillicons.dev/icons?i=c,cpp,kotlin,js,html,css,androidstudio,firebase,linux,git,github,qt,vscode&theme=dark" width="90%"/>
 
-[![GitHub](https://img.shields.io/badge/GITHUB-00ff9c?style=for-the-badge&logo=github&logoColor=black&labelColor=080b10)](https://github.com/Ahmadbilal-exe)
+</div>
 
-<br/>
+### <code>03 // CURRENT INTERESTS</code>
 
-`01000001 01001000 01001101 01000001 01000100`
+- `>` Software Engineering
+- `>` Android Development
+- `>` Competitive Programming
+- `>` Linux & Open Source
+- `>` Problem Solving
 
-**<code>CODE. LEARN. BUILD. REPEAT.</code>**
+### <code>04 // ESTABLISH CONNECTION</code>
+
+<div align="center">
+
+<a href="https://ahmadbilal-exe.vercel.app/">
+<img src="https://img.shields.io/badge/WEBSITE-00FF9C?style=for-the-badge&logo=vercel&logoColor=black&labelColor=080b10"/>
+</a>
+<a href="https://github.com/Ahmadbilal-exe">
+<img src="https://img.shields.io/badge/GITHUB-00FF9C?style=for-the-badge&logo=github&logoColor=black&labelColor=080b10"/>
+</a>
+
+<br/><br/>
+
+<img src="https://capsule-render.vercel.app/api?type=rect&color=0:003b24,100:050505&height=2&section=footer" width="100%"/>
+
+<code>CONNECTION ESTABLISHED // KEEP BUILDING.</code>
 
 </div>
