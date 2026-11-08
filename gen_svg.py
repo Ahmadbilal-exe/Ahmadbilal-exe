@@ -2,9 +2,9 @@
 today.py later fills in the live numbers. Re-run this only when you change text or the picture."""
 from PIL import Image, ImageEnhance
 
-SRC = "avatar.png"
+SRC = "avatar_cut.png"          # made by make_cutout.py (character only, no background)
 COLS, ROWS = 72, 36                  # char cell is 6x12 px -> square portrait of 384x384
-RAMP = " .·:;+=xX$&#▒▓█"             # light -> dense symbols
+RAMP = " .*()%#$@"                    # light -> dense, classic ASCII symbols
 W = 63                               # characters per text line
 HALF = 30                            # width of each stats column
 X_TXT, LH = 470, 20
@@ -22,23 +22,29 @@ def dim(h): return "#%02x%02x%02x" % tuple(int(v * 0.62) for v in _rgb(h))
 def lighten(h): return "#%02x%02x%02x" % tuple(min(255, int(v * 1.25) + 25) for v in _rgb(h))
 
 def portrait():
-    img = Image.open(SRC).convert("RGB")
-    img = ImageEnhance.Contrast(img).enhance(1.25)
-    img = ImageEnhance.Color(img).enhance(1.25)
-    img = img.resize((COLS, ROWS), Image.LANCZOS)
+    """Rows of runs [(color_or_None, text)]; None = transparent background cells (spaces)."""
+    src = Image.open(SRC).convert("RGBA")
+    rgb = ImageEnhance.Color(ImageEnhance.Contrast(src.convert("RGB")).enhance(1.25)).enhance(1.25)
+    rgb = rgb.resize((COLS, ROWS), Image.LANCZOS)
+    alpha = src.getchannel("A").resize((COLS, ROWS), Image.BOX)
+    q = lambda v: min(255, int(round(v / 16)) * 16)
     rows = []
     for y in range(ROWS):
-        runs, cur, txt = [], None, ""
+        cells = []
         for x in range(COLS):
-            r, g, b = img.getpixel((x, y))
+            if alpha.getpixel((x, y)) < 110:
+                cells.append((None, " "))
+                continue
+            r, g, b = rgb.getpixel((x, y))
             lum = (0.299 * r + 0.587 * g + 0.114 * b) / 255
             ch = RAMP[min(int((lum ** 0.8) * len(RAMP)), len(RAMP) - 1)]
-            q = lambda v: min(255, int(round(v / 16)) * 16)
-            col = "#%02x%02x%02x" % (q(min(255, r * 1.15)), q(min(255, g * 1.15)), q(min(255, b * 1.15)))
-            if col != cur and txt:
-                runs.append((cur, txt)); txt = ""
-            cur = col; txt += ch
-        runs.append((cur, txt))
+            cells.append(("#%02x%02x%02x" % (q(min(255, r * 1.15)), q(min(255, g * 1.15)), q(min(255, b * 1.15))), ch))
+        runs = []
+        for col, ch in cells:
+            if runs and runs[-1][0] == col:
+                runs[-1] = (col, runs[-1][1] + ch)
+            else:
+                runs.append((col, ch))
         rows.append(runs)
     return rows
 
@@ -98,18 +104,18 @@ for fname, c in THEMES.items():
          "text,tspan{white-space:pre;}",
          "</style>",
          f'<rect width="{WIDTH}px" height="{H}px" fill="{c["bg"]}" rx="15"/>',
-         f'<rect x="{PX}" y="{PY}" width="{PW}" height="{PH}" rx="10" fill="{c["panel"]}"/>',
          ]
     for i, runs in enumerate(art):
         x = PX + 12
         for col, t in runs:
             w = ART_CW * len(t)
-            o.append(f'<rect x="{x}" y="{PY + 12 + i * ART_LH}" width="{w}" height="{ART_LH}" fill="{dim(col)}"/>')
+            if col:
+                o.append(f'<rect x="{x}" y="{PY + 12 + i * ART_LH}" width="{w}" height="{ART_LH}" fill="{dim(col)}"/>')
             x += w
     o.append(f'<text font-family="DejaVu Sans Mono,Consolas,monospace" font-size="{ART_FONT}px" xml:space="preserve">')
     for i, runs in enumerate(art):
         y = PY + 12 + ART_LH * (i + 1) - 3
-        spans = "".join(f'<tspan fill="{lighten(col)}">{esc(t)}</tspan>' for col, t in runs)
+        spans = "".join((f'<tspan fill="{lighten(col)}">{esc(t)}</tspan>' if col else t) for col, t in runs)
         o.append(f'<tspan x="{PX + 12}" y="{y}">{spans}</tspan>')
     o.append("</text>")
     o.append(f'<text x="{X_TXT}" y="30" fill="{c["text"]}" xml:space="preserve">')
@@ -123,11 +129,11 @@ print("ok", WIDTH, H)
 from PIL import ImageDraw, ImageFont
 try:
     f = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf", 10)
-    im = Image.new("RGB", (COLS * 6 + 24, ROWS * 12 + 24), "#0a1a33"); d = ImageDraw.Draw(im)
+    im = Image.new("RGB", (COLS * 6 + 24, ROWS * 12 + 24), "#0d1117"); d = ImageDraw.Draw(im)
     for i, runs in enumerate(art):
         x = 12
         for col, t in runs:
-            d.rectangle([x, 12 + i * 12, x + 6 * len(t), 12 + i * 12 + 12], fill=dim(col)); d.text((x, 12 + i * 12), t, fill=lighten(col), font=f); x += 6 * len(t)
+            (d.rectangle([x, 12 + i * 12, x + 6 * len(t), 12 + i * 12 + 12], fill=dim(col)), d.text((x, 12 + i * 12), t, fill=lighten(col), font=f)) if col else None; x += 6 * len(t)
     im = im.resize((im.width * 2, im.height * 2)); im.save("/home/claude/preview.png")
 except Exception as e:
     print("preview skipped", e)
