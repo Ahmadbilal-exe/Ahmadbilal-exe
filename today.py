@@ -13,7 +13,7 @@ from dateutil import relativedelta
 
 USER_NAME = os.environ.get("USER_NAME", "Ahmadbilal-exe")
 HEADERS = {"authorization": "token " + os.environ["ACCESS_TOKEN"]}
-BIRTHDAY = datetime.datetime(2005, 1, 1)   # TODO: put your real date of birth
+BIRTHDAY = datetime.datetime(2008, 10, 8)   # TODO: put your real date of birth
 WIDTH = 58                                 # must match gen_svg.py
 SVG_FILES = ["dark_mode.svg", "light_mode.svg"]
 CACHE_FILE = "cache/loc.json"
