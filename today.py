@@ -11,7 +11,7 @@ from xml.etree import ElementTree as ET
 import requests
 from dateutil import relativedelta
 
-USER_NAME = os.environ.get("USER_NAME", "Ahmadbilal-exe")
+USER_NAME = os.environ.get("USER_NAME") or "Ahmadbilal-exe"
 HEADERS = {"authorization": "token " + os.environ["ACCESS_TOKEN"]}
 BIRTHDAY = datetime.datetime(2008, 10, 8)   # 8 Oct 2008
 WIDTH = 63                                 # must match gen_svg.py
