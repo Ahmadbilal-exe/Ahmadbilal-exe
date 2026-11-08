@@ -13,8 +13,9 @@ from dateutil import relativedelta
 
 USER_NAME = os.environ.get("USER_NAME", "Ahmadbilal-exe")
 HEADERS = {"authorization": "token " + os.environ["ACCESS_TOKEN"]}
-BIRTHDAY = datetime.datetime(2008, 10, 8)   # TODO: put your real date of birth
-WIDTH = 58                                 # must match gen_svg.py
+BIRTHDAY = datetime.datetime(2008, 10, 8)   # 8 Oct 2008
+WIDTH = 63                                 # must match gen_svg.py
+HALF = 30                                  # width of each stats column
 SVG_FILES = ["dark_mode.svg", "light_mode.svg"]
 CACHE_FILE = "cache/loc.json"
 ET.register_namespace("", "http://www.w3.org/2000/svg")
@@ -125,13 +126,11 @@ def set_text(root, el_id, text):
             return
 
 
-def justify(root, base, value, key_len, extra=None):
-    """Update the value tspan and re-pad its dotted leader to keep the line width constant."""
-    vlen = extra if extra is not None else len(value)
-    n = WIDTH - key_len - 1 - vlen
+def justify(root, base, value, key_len, width=WIDTH):
+    """Update the value tspan and re-pad its dotted leader to keep the column width constant."""
+    n = width - key_len - 1 - len(value)
     set_text(root, f"{base}_dots", (" " + "." * (n - 2) + " ") if n >= 2 else " " * max(n, 0))
-    if extra is None:
-        set_text(root, f"{base}_data", value)
+    set_text(root, f"{base}_data", value)
 
 
 def update_svgs(s):
@@ -139,16 +138,12 @@ def update_svgs(s):
         tree = ET.parse(f)
         root = tree.getroot()
         justify(root, "age", s["age"], len("Uptime"))
-        justify(root, "repo", s["repos"], len("Repos"))
-        justify(root, "contrib", s["contrib"], len("Contributions"))
-        justify(root, "star", s["stars"], len("Stars"))
-        justify(root, "follower", s["followers"], len("Followers"))
-        justify(root, "commit", s["commits"], len("Commits"))
-        set_text(root, "loc_data", s["loc"])
-        set_text(root, "loc_add", s["add"])
-        set_text(root, "loc_del", s["del"])
-        loc_len = len(s["loc"]) + len(" ( ") + len(s["add"]) + len("++, ") + len(s["del"]) + len("-- )")
-        justify(root, "loc", "", len("Lines of Code"), extra=loc_len)
+        justify(root, "follower", s["followers"], len("Followers"), HALF)
+        justify(root, "star", s["stars"], len("Stars"), HALF)
+        justify(root, "contrib", s["contrib"], len("Contributions"), HALF)
+        justify(root, "repo", s["repos"], len("Repos"), HALF)
+        justify(root, "commit", s["commits"], len("Commits"), HALF)
+        justify(root, "loc", s["loc"], len("Lines of Code"), HALF)
         tree.write(f, encoding="utf-8", xml_declaration=True)
 
 
@@ -167,7 +162,5 @@ if __name__ == "__main__":
         "followers": fmt(followers),
         "commits": fmt(commits),
         "loc": fmt(add - dele),
-        "add": fmt(add),
-        "del": fmt(dele),
     })
     print("Updated.")
